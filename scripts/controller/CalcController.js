@@ -1,6 +1,6 @@
 class CalcController {
   constructor() {
-    this._audio = new Audio();
+    this._audio = new Audio('click.mp3');
     this._audioOnOff = false;
     this._lastOperator = '';
     this._lastNumber = '';
@@ -24,7 +24,7 @@ class CalcController {
     this.pasteFromClipboard();
     document.querySelectorAll('btn-ac').forEach(btn => {
       btn.addEventListener('dblclick', e => {
-          this.toggleAudio()
+          this.toggleAudio();
       });
     });
   }
@@ -108,7 +108,13 @@ class CalcController {
 
 
   getResult() {
-    return eval(this._operation.join(""));
+    try {
+      return eval(this._operation.join(""));
+    } catch(e) {
+      setTimeout(() => {
+        this.setError();
+      }, 1);
+    }
   }
 
   calc() {
